@@ -1,0 +1,36 @@
+{
+  "name": "miraphp",
+  "displayName": "MiraPHP Language Extension",
+  "description": "Provides enhanced IDE support for MiraPHP framework projects",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:app/router.php",
+    "workspaceContains:mira"
+  ],
+  "main": "./client/out/extension.js",
+  "contributes": {
+    "commands": []
+  },
+  "scripts": {
+    "compile": "tsc -b",
+    "watch": "tsc -b -w",
+    "prepublishOnly": "npm run compile",
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.6",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^8.1.0",
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-textdocument": "^1.0.8"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "miraphp-server",
+  "description": "MiraPHP Language Server",
+  "author": "MiraPHP Team",
+  "license": "MIT",
+  "version": "0.1.0",
+  "publisher": "MiraPHP",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MiraPHP/vscode-extension.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-textdocument": "^1.0.8"
+  }
+}
