@@ -37,12 +37,14 @@ Currently implementing features in the following order:
 8. CLI Integration
 9. Metadata Optimization
 
-### Route to Controller Navigation
+### Go-To Navigation
 In a route file (e.g., `web/routes/apis.php`), try Ctrl+clicking on a controller reference:
 ```php
 $router->get('/users', 'Users/UsersController@index');
 ```
 Clicking on `Users/UsersController@index` should navigate to the `index` method in the `app/Controllers/Users/UsersController.php` file.
+
+same applies to asset() and views.
 
 ## Requirements
 
