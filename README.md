@@ -1,3 +1,4 @@
+README.md
 # MiraPHP VsCode Extension (beta)
 
 A VSCode extension that provides enhanced IDE support for MiraPHP framework projects, offering Laravel-level developer experience including:
@@ -27,14 +28,21 @@ This extension automatically activates when it detects a MiraPHP project contain
 
 Currently implementing features in the following order:
 1. ✅ Project Detection
-2. 🔄 Go To Definition
-3. Hover Information
+2. ✅ Go To Definition
+3. 🔄 Hover Information
 4. Autocomplete
 5. Route Intelligence
 6. View Linking
 7. Diagnostics
 8. CLI Integration
 9. Metadata Optimization
+
+### Route to Controller Navigation
+In a route file (e.g., `web/routes/apis.php`), try Ctrl+clicking on a controller reference:
+```php
+$router->get('/users', 'Users/UsersController@index');
+```
+Clicking on `Users/UsersController@index` should navigate to the `index` method in the `app/Controllers/Users/UsersController.php` file.
 
 ## Requirements
 

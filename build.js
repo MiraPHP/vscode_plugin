@@ -1,40 +1,54 @@
-const { exec } = require('child_process');
-const { promisify } = require('util');
-const fs = require('fs');
+const { spawn } = require('child_process');
 const path = require('path');
 
-const execAsync = promisify(exec);
+// Function to run a command in a specific directory
+function runCommand(cmd, args, cwd) {
+    return new Promise((resolve, reject) => {
+        console.log(`Running: ${cmd} ${args.join(' ')}`);
+        const child = spawn(cmd, args, { 
+            cwd,
+            stdio: ['pipe', 'pipe', 'pipe'],
+            shell: true
+        });
 
-async function build() {
-  console.log('Building MiraPHP VSCode Extension...');
-  
-  try {
-    // Ensure output directories exist
-    const clientOutDir = path.join(__dirname, 'client', 'out');
-    const serverOutDir = path.join(__dirname, 'server', 'out');
-    
-    if (!fs.existsSync(clientOutDir)) {
-      fs.mkdirSync(clientOutDir, { recursive: true });
-    }
-    
-    if (!fs.existsSync(serverOutDir)) {
-      fs.mkdirSync(serverOutDir, { recursive: true });
-    }
+        // Capture and display output
+        child.stdout.on('data', (data) => {
+            console.log(data.toString());
+        });
 
-    // Compile TypeScript
-    console.log('Compiling TypeScript...');
-    await execAsync('npx tsc -b', { cwd: __dirname });
-    console.log('TypeScript compilation completed.');
+        child.stderr.on('data', (data) => {
+            console.error(data.toString());
+        });
 
-    console.log('Build completed successfully!');
-  } catch (error) {
-    console.error('Build failed:', error.message);
-    process.exit(1);
-  }
+        child.on('close', (code) => {
+            if (code === 0) {
+                resolve();
+            } else {
+                reject(new Error(`Command exited with code ${code}`));
+            }
+        });
+    });
 }
 
-if (require.main === module) {
-  build();
+async function buildProject() {
+    try {
+        console.log('Building MiraPHP VSCode Extension...');
+        
+        // Compile the main project
+        await runCommand('npx', ['tsc', '-b'], process.cwd());
+        
+        // Compile client
+        await runCommand('npx', ['tsc', '-b'], path.join(process.cwd(), 'client'));
+        
+        // Compile server
+        await runCommand('npx', ['tsc', '-b'], path.join(process.cwd(), 'server'));
+        
+        console.log('Build completed successfully!');
+    } catch (error) {
+        console.error('Build failed:', error.message);
+        process.exit(1);
+    }
 }
 
-module.exports = { build };
+// Run the build
+buildProject();

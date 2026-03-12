@@ -31,7 +31,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		// Otherwise the run options are used
 		const serverOptions: ServerOptions = {
 			run: { module: serverModule, transport: TransportKind.ipc },
-debug: { module: serverModule, transport: TransportKind.ipc }
+			debug: { module: serverModule, transport: TransportKind.ipc }
 		};
 
 		// Options to control the language client
@@ -77,6 +77,9 @@ debug: { module: serverModule, transport: TransportKind.ipc }
 		// Start the client. This will also launch the server
 		await client.start();
 		console.log('MiraPHP language client started successfully');
+		
+		// Show a notification to the user that the language server is ready
+		vscode.window.showInformationMessage('MiraPHP extension initialized successfully!');
 	} catch (error) {
 		console.error('Error starting MiraPHP extension:', error);
 		vscode.window.showErrorMessage(`Failed to start MiraPHP extension: ${error instanceof Error ? error.message : String(error)}`);
